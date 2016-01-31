@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="src/css/style.css">
+
+	<!-- // <script src="http://bdev.it/projects/med/js/modernizr.js"></script> -->
+	<script src="http://bdev.it/projects/med/js/jquery.min.js"></script>
+	<script src="bower_components/react/react.js"></script>
+	<script src="bower_components/react/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	<!-- // <script type="text/babel" src="src/js/app.jsx"></script> -->
+</head>
+<body>
+	<div class="switch back" data-item="136800"></div>
+	<div class="switch forward" data-item="136800"></div>
+
+	<div id="container">
+		<h1>Enter your question to know the possibility</h1>
+		<form action="#" method="post" id="f">
+			<div class="row">
+				<input type="text" name="qu" id="qu">
+			</div>
+			<div class="row">
+				<input type="submit" value="Check it out">
+			</div>
+		</form>
+
+		<div id="result">
+			<h2>Possibility is </h2>
+			<h2 class="percent"><span>100%</span></h2>
+		</div>
+	</div>
+
+	<script>
+		$(function(){
+			i = 1;
+			var interval = setInterval(function(){
+				var $span = $('#result').find('span');
+				i++;
+				if(i==101){
+					clearInterval(interval);
+					return;
+				}
+				$span.text(i+'%');
+			}, 50 * i);
+
+
+			$('#f').on('submit', function(e){
+				e.preventDefault();
+				$('#result').fadeIn(150);
+			});
+
+			$('.switch.back').on('click', function(e){
+				e.preventDefault();
+				var item = parseInt($(this).data('item'))+1;
+				console.log(item);
+				$('body').css('background','#fff url(http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+item+'.jpg) no-repeat;');
+			});
+		});
+	</script>
+</body>
+</html>

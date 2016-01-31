@@ -1,0 +1,25 @@
+{
+  "name": "possibility",
+  "authors": [
+    "Bogdan Vergun <bogvsdev@gmail.com>"
+  ],
+  "description": "Outputs the possibility of entered event or prediction",
+  "main": "index.html",
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "react",
+    "js",
+    "es6",
+    "prediction"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "react": "^0.14.7",
+    "normalize-css": "normalize.css#^3.0.3",
+  }
+}
