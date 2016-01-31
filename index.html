@@ -37,28 +37,44 @@
 
 	<script>
 		$(function(){
-			i = 1;
-			var interval = setInterval(function(){
-				var $span = $('#result').find('span');
-				i++;
-				if(i==101){
-					clearInterval(interval);
-					return;
-				}
-				$span.text(i+'%');
-			}, 50 * i);
+
+			
 
 
 			$('#f').on('submit', function(e){
 				e.preventDefault();
 				$('#result').fadeIn(150);
+				var i = 1;
+				var interval = setInterval(function(){
+					var $span = $('#result').find('span');
+					i++;
+					if(i==101){
+						clearInterval(interval);
+						return;
+					}
+					$span.text(i+'%');
+				}, 50 * i);
 			});
 
 			$('.switch.back').on('click', function(e){
 				e.preventDefault();
+				var item = parseInt($(this).data('item'))-1;
+				$(this).data('item', item);
+				$('.switch.forward').data('item', item);
+				$('body').css({
+				'background-image':'url(http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+item+'.jpg)',
+				'background-size':'cover'
+			});
+			});
+			$('.switch.forward').on('click', function(e){
+				e.preventDefault();
 				var item = parseInt($(this).data('item'))+1;
-				console.log(item);
-				$('body').css('background','#fff url(http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+item+'.jpg) no-repeat;');
+				$(this).data('item', item);
+				$('.switch.back').data('item', item);
+				$('body').css({
+				'background-image':'url(http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+item+'.jpg)',
+				'background-size':'cover'
+			});
 			});
 		});
 	</script>
