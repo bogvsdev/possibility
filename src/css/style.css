@@ -95,14 +95,27 @@ h1,h2,h3 {
     border-radius: 100%;
     background: #fff;
     box-shadow: 0 1px 3px rgba(6, 33, 74, 0.62);
+    overflow: hidden;
+    position: relative;
 }
-
+#container #result h2.percent .liquid {
+	display: block;
+	width: 140px;
+	height: 140px;
+	position: absolute;
+	bottom: -140px;
+	left: 0;
+	background:rgba(100, 221, 23, 0.65);
+	z-index:100;
+}
 #container #result h2.percent span {
 	display: block;
-	width: 120px;
+	width: 132px;
 	margin:0 auto;
 	padding: 40px 0 0 0;
 	text-align: center;
+	z-index: 150;
+	position: absolute;
 }
 
 .switch {

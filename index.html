@@ -31,7 +31,10 @@
 
 		<div id="result">
 			<h2>Possibility is </h2>
-			<h2 class="percent"><span>100%</span></h2>
+			<h2 class="percent">
+				<span>100%</span>
+				<div class="liquid"></div>
+			</h2>
 		</div>
 	</div>
 
@@ -39,20 +42,38 @@
 		$(function(){
 
 			
-
+			$('#qu').on('focus', function(){
+				if($(this).val().length>0){
+					$(this).val('');
+					var i = 100, stop = 1, pxls = 1.4;
+					var interval = setInterval(function(){
+						var $span = $('#result').find('span');
+						pxls += 1.4;
+						$span.next().css('bottom', '-'+pxls+'px');
+						$span.text(i-stop+'%');
+						stop++;
+						if(i==(stop-1)){
+							clearInterval(interval);
+							return;
+						}
+					}, 10);
+				}
+			});
 
 			$('#f').on('submit', function(e){
 				e.preventDefault();
 				$('#result').fadeIn(150);
-				var i = 1;
+				var i = 1, stop = 100, pxls = 140;
 				var interval = setInterval(function(){
 					var $span = $('#result').find('span');
+					pxls -= 1.4;
+					$span.next().css('bottom', '-'+pxls+'px');
+					$span.text(i+'%');
 					i++;
-					if(i==101){
+					if(i==(stop+1)){
 						clearInterval(interval);
 						return;
 					}
-					$span.text(i+'%');
 				}, 50 * i);
 			});
 
