@@ -105,8 +105,13 @@ h1,h2,h3 {
 	position: absolute;
 	bottom: -140px;
 	left: 0;
-	background:rgba(100, 221, 23, 0.65);
+	background:rgba(221, 0, 0, 0.82);
+	/*background:rgba(255, 214, 0, 0.77);*/
+	/*background:rgba(100, 221, 23, 0.65);*/
 	z-index:100;
+	-webkit-transition: background 1.5s;
+	-o-transition: background 1.5s;
+	transition: background 1.5s;
 }
 #container #result h2.percent span {
 	display: block;

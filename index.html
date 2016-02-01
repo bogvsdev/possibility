@@ -32,7 +32,7 @@
 		<div id="result">
 			<h2>Possibility is </h2>
 			<h2 class="percent">
-				<span>100%</span>
+				<span>0%</span>
 				<div class="liquid"></div>
 			</h2>
 		</div>
@@ -53,10 +53,11 @@
 						$span.text(i-stop+'%');
 						stop++;
 						if(i==(stop-1)){
+							$span.next().css('background', 'rgba(221, 0, 0, 0.82)');
 							clearInterval(interval);
 							return;
 						}
-					}, 10);
+					}, 5);
 				}
 			});
 
@@ -70,6 +71,12 @@
 					$span.next().css('bottom', '-'+pxls+'px');
 					$span.text(i+'%');
 					i++;
+					if(pxls<110 && pxls >= 60){
+						$span.next().css('background', 'rgba(255, 214, 0, 0.77)');
+					}else if(pxls<95){
+						$span.next().css('background', 'rgba(100, 221, 23, 0.65)');
+					}
+
 					if(i==(stop+1)){
 						clearInterval(interval);
 						return;
