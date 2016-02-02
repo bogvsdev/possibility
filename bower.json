@@ -19,7 +19,6 @@
   "homepage": "",
   "private": true,
   "dependencies": {
-    "react": "^0.14.7",
     "normalize-css": "normalize.css#^3.0.3",
   }
 }
