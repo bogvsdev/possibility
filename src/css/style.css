@@ -100,10 +100,10 @@ h1,h2,h3 {
 }
 #container #result h2.percent .liquid {
 	display: block;
-	width: 140px;
-	height: 140px;
+	width: 130px;
+	height: 131px;
 	position: absolute;
-	bottom: -140px;
+	bottom: -131px;
 	left: 0;
 	background:rgba(221, 0, 0, 0.82);
 	/*background:rgba(255, 214, 0, 0.77);*/
