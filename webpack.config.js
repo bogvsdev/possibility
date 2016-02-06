@@ -1,5 +1,6 @@
 var debug = false;
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   context: __dirname + "/src",
@@ -9,7 +10,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules|bower_components|dist)/,
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
@@ -27,4 +28,9 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   ],
+  resolve: {
+    root: [
+      path.resolve('./src/js'),
+    ]
+  }
 };

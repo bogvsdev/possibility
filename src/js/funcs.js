@@ -1,6 +1,6 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-$(function(){
+export function funcs(){
 
 	$('#qu').on('focus', function(){
 		if($(this).val().length>0){
@@ -66,4 +66,4 @@ $(function(){
 			'background-size':'cover'
 		});
 	});
-});
+};
