@@ -1,15 +1,16 @@
 import React from "react";
 
 export default class Layout extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      title: "Welcome",
-    };
+  getInitialState() {
+    return {
+      percent: 50
+    }
   }
+  generate() {
 
-  changeTitle(title) {
     this.setState({title});
+
+    console.log(this.state.title);
   }
 
   render() {
@@ -21,7 +22,7 @@ export default class Layout extends React.Component {
               <input type="text" name="qu" id="qu" />
             </div>
             <div className="row">
-              <input type="submit" id="btn" value="Check it out" />
+              <input type="submit" id="btn" onClick={this.generate()} value="Check it out" />
             </div>
           </form>
 
