@@ -7,6 +7,7 @@ export default class Layout extends React.Component {
 
     this.state = {
       percent: 50,
+      pixels: 0
     }
 
   }
@@ -17,12 +18,13 @@ export default class Layout extends React.Component {
     
     $('#btn').prop('disabled', true);
     $('#result').fadeIn(150);
-    var i = 1, stop = this.state.percent, pxls = 131;
+    var i = 1, stop = this.state.percent, pxls = 131, pixels=0;
     var interval = setInterval(function(){
       var $span = $('#result').find('span');
       pxls -= 1.3;
       $span.next().css('bottom', '-'+pxls+'px');
       $span.text(i+'%');
+      pixels = pxls;
       i++;
       if(pxls<110 && pxls >= 60){
         $span.next().css('background', 'rgba(255, 214, 0, 0.77)');
@@ -30,26 +32,29 @@ export default class Layout extends React.Component {
         $span.next().css('background', 'rgba(100, 221, 23, 0.65)');
       }
 
-      if(i==(stop+1)){
+      if(i>=(stop+1)){
         $('#btn').prop('disabled', false);
         clearInterval(interval);
         return;
       }
     }, 50 * i);
+
+    this.setState({pixels: pixels});
   }
 
   clearField(e){
     var self = e.target;
     if($(self).val().length>0){
       $(self).val('');
-      var i = 100, stop = 1, pxls = 1.3;
+      var i = this.state.percent, stop = 1, pxls = 1.3;
       var interval = setInterval(function(){
+      console.log(i, pxls);
         var $span = $('#result').find('span');
         pxls += 1.3;
         $span.next().css('bottom', '-'+pxls+'px');
         $span.text(i-stop+'%');
         stop++;
-        if(i==(stop-1)){
+        if(i == (stop-1)){
           $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
           clearInterval(interval);
           return;
