@@ -6,19 +6,28 @@ export default class Layout extends React.Component {
     super()
 
     this.state = {
-      percent: 50,
+      percent: this.random(),
       pixels: 0
     }
 
   }
 
+  random(){
+    return Math.floor(Math.random()*100);
+  }
+
   generate(e) {
     e.preventDefault();
-    this.setState({percent: Math.floor(Math.random()*100)});
+    this.setState({percent: this.random()});
     
     $('#btn').prop('disabled', true);
     $('#result').fadeIn(150);
     var i = 1, stop = this.state.percent, pxls = 131, pixels=0;
+    
+    if($('#qu').val().length>0){
+      this.clearField();
+    }
+
     var interval = setInterval(function(){
       var $span = $('#result').find('span');
       pxls -= 1.3;
@@ -42,10 +51,10 @@ export default class Layout extends React.Component {
     this.setState({pixels: pixels});
   }
 
-  clearField(e){
-    var self = e.target;
+  clearField(){
+    var self = $('#qu');
     if($(self).val().length>0){
-      $(self).val('');
+      // $(self).val('');
       var i = this.state.percent, stop = 1, pxls = 1.3;
       var interval = setInterval(function(){
       console.log(i, pxls);
