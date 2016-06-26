@@ -31,13 +31,17 @@ export default class Layout extends React.Component {
   generate(e) {
     e.preventDefault();
 
+    //check if field has something
+    if( $('#qu').val().length == 0 ){
+      return;
+    }else{
+      var prev = $('#qu').val();
+      this.clearField(false);
+      $('#qu').val(prev);
+    }
+
     //block submition
     $('#btn').prop('disabled', true);
-
-    //check if field has something
-    // if( $('#qu').val().length > 0 ){
-    //   this.clearField(false);
-    // }
 
     var $span = $('#result').find('span'),
         percent = this.state.percent, //@note holds prev value
@@ -47,6 +51,8 @@ export default class Layout extends React.Component {
         pxls = height; //initial val of % in pxls
 
     console.log('generate' + percent);
+    //reset color
+    $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
 
     var interval = setInterval(function(){
         //add 1% in px from current value of this.state.percent in pxls http://localhost:1000/
