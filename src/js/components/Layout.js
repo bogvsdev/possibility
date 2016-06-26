@@ -54,7 +54,6 @@ export default class Layout extends React.Component {
   clearField(){
     var self = $('#qu');
     if($(self).val().length>0){
-      // $(self).val('');
       var i = this.state.percent, stop = 1, pxls = 1.3;
       var interval = setInterval(function(){
       console.log(i, pxls);
