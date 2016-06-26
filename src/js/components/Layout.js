@@ -1,74 +1,119 @@
 import React from "react";
 import $ from 'jquery';
 
+/**
+ * Main class of app
+ *
+ * @description 
+ * Has to properly generate and show result with animation
+ * 
+ * @method generate new percent
+ * @method random
+ * @method clear filed
+ * @method 
+ * 
+ */
 export default class Layout extends React.Component {
   constructor(){
     super()
 
     this.state = {
       percent: this.random(),
-      pixels: 0
     }
 
   }
 
+  //random between 0 and 100
   random(){
-    return Math.floor(Math.random()*100);
+    return Math.floor(Math.random() * (100 - 0 + 1)) + 0;
   }
 
   generate(e) {
     e.preventDefault();
-    this.setState({percent: this.random()});
-    
+
+    //block submition
     $('#btn').prop('disabled', true);
-    $('#result').fadeIn(150);
-    var i = 1, stop = this.state.percent, pxls = 131, pixels=0;
-    
-    if($('#qu').val().length>0){
-      this.clearField();
-    }
+
+    //check if field has something
+    // if( $('#qu').val().length > 0 ){
+    //   this.clearField(false);
+    // }
+
+    var $span = $('#result').find('span'),
+        percent = this.state.percent, //@note holds prev value
+        newPercent = 0,
+        height = $span.next().height(), //height of the liquid block
+        px = (1 * height) / 100, //1% in pixels
+        pxls = height; //initial val of % in pxls
+
+    console.log('generate' + percent);
 
     var interval = setInterval(function(){
-      var $span = $('#result').find('span');
-      pxls -= 1.3;
-      $span.next().css('bottom', '-'+pxls+'px');
-      $span.text(i+'%');
-      pixels = pxls;
-      i++;
-      if(pxls<110 && pxls >= 60){
-        $span.next().css('background', 'rgba(255, 214, 0, 0.77)');
-      }else if(pxls<95){
-        $span.next().css('background', 'rgba(100, 221, 23, 0.65)');
-      }
-
-      if(i>=(stop+1)){
-        $('#btn').prop('disabled', false);
-        clearInterval(interval);
-        return;
-      }
-    }, 50 * i);
-
-    this.setState({pixels: pixels});
-  }
-
-  clearField(){
-    var self = $('#qu');
-    if($(self).val().length>0){
-      var i = this.state.percent, stop = 1, pxls = 1.3;
-      var interval = setInterval(function(){
-      console.log(i, pxls);
-        var $span = $('#result').find('span');
-        pxls += 1.3;
+        //add 1% in px from current value of this.state.percent in pxls http://localhost:1000/
+        pxls -= px;
         $span.next().css('bottom', '-'+pxls+'px');
-        $span.text(i-stop+'%');
-        stop++;
-        if(i == (stop-1)){
-          $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
+
+        //stop animation if bottom reached
+        if(newPercent == percent){
+          $('#btn').prop('disabled', false);
           clearInterval(interval);
           return;
         }
-      }, 5);
-    }
+        //substruct percent value
+        newPercent+=1;
+        $span.text(newPercent+'%');
+
+        if(newPercent <= 55 && newPercent >= 20){
+          $span.next().css('background', 'rgba(255, 214, 0, 0.77)');
+        }else if(newPercent >= 56){
+          $span.next().css('background', 'rgba(100, 221, 23, 0.65)');
+        }
+        
+      }, 50);
+  }
+
+  clearField(animation = true){
+    //generate new percent, but in this method state has previous value
+    this.setState({percent: this.random()});
+
+    var $field = $('#qu');
+    //check if field has something
+    if( $field.val().length > 0 ){
+      //reset field
+      $field.val('');
+
+      var $span = $('#result').find('span'),
+        percent = this.state.percent,
+        newPercent = percent,
+        height = $span.next().height(), //height of the liquid block
+        px = (1 * height) / 100, //1% in pixels
+        pxls = height - Math.floor((percent * height) / 100); //% in pixels @note not visible bottom: -131px, visile 0px
+      
+      console.log('clearField percent' + percent);
+
+      if (animation) {
+        //set liquid to current percent state
+        $span.next().css('bottom', '-'+pxls+'px');
+        //define animation interval. Substructs % and adds pxls
+        var interval = setInterval(function(){
+          //add 1% in px from current value of this.state.percent in pxls
+          pxls += px;
+          $span.next().css('bottom', '-'+pxls+'px');
+
+          //stop animation if bottom reached
+          if(newPercent == 0){
+            $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
+            clearInterval(interval);
+            return;
+          }
+          //substruct percent value
+          newPercent-=1;
+          $span.text(newPercent+'%');
+          
+        }, 5);
+      }
+    } //end if
+
   }
 
   render() {
