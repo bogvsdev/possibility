@@ -35,6 +35,7 @@ export default class Layout extends React.Component {
     if( $('#qu').val().length == 0 ){
       return;
     }else{
+      //regenerate percent and save field value
       var prev = $('#qu').val();
       this.clearField(false);
       $('#qu').val(prev);

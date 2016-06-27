@@ -32,5 +32,6 @@ module.exports = {
     root: [
       path.resolve('./src/js'),
     ]
-  }
+  },
+  // watch: true
 };
