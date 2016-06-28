@@ -101,7 +101,7 @@ export default class Layout extends React.Component {
       if (animation) {
         //set liquid to current percent state
         $span.next().css('bottom', '-'+pxls+'px');
-        //define animation interval. Substructs % and adds pxls
+        // define animation interval. Substructs % and adds pxls
         var interval = setInterval(function(){
           //add 1% in px from current value of this.state.percent in pxls
           pxls += px;
