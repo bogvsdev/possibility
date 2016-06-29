@@ -43,6 +43,7 @@ export default class Layout extends React.Component {
 
     //block submition
     $('#btn').prop('disabled', true);
+    $('#qu').prop('disabled', true);
 
     var $span = $('#result').find('span'),
         percent = this.state.percent, //@note holds prev value
@@ -51,7 +52,7 @@ export default class Layout extends React.Component {
         px = (1 * height) / 100, //1% in pixels
         pxls = height; //initial val of % in pxls
 
-    console.log('generate' + percent);
+    // console.log('generate' + percent);
     //reset color
     $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
 
@@ -63,6 +64,7 @@ export default class Layout extends React.Component {
         //stop animation if bottom reached
         if(newPercent == percent){
           $('#btn').prop('disabled', false);
+          $('#qu').prop('disabled', false);
           clearInterval(interval);
           return;
         }
@@ -82,7 +84,6 @@ export default class Layout extends React.Component {
   clearField(animation = true){
     //generate new percent, but in this method state has previous value
     this.setState({percent: this.random()});
-
     var $field = $('#qu');
     //check if field has something
     if( $field.val().length > 0 ){
@@ -96,7 +97,7 @@ export default class Layout extends React.Component {
         px = (1 * height) / 100, //1% in pixels
         pxls = height - Math.floor((percent * height) / 100); //% in pixels @note not visible bottom: -131px, visile 0px
       
-      console.log('clearField percent' + percent);
+      // console.log('clearField percent' + percent);
 
       if (animation) {
         //set liquid to current percent state
@@ -119,7 +120,11 @@ export default class Layout extends React.Component {
           
         }, 5);
       }
-    } //end if
+    }else if($field.val().length === 0 && $('.liquid').prev().text() !== '0%'){ //idle case
+      $span.next().css('bottom', '-131px'); //hide
+      $span.next().css('background', 'rgba(221, 0, 0, 0.82)'); //reset color
+      $span.text('0%');
+    } 
 
   }
 
