@@ -1,16 +1,16 @@
-var debug = true;
+var debug = false;
 var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
   context: __dirname + "/src",
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./js/app.js",
+  entry: "./app.js",
   module: {
     loaders: [
       {
         test: /\.js?$/,
-        exclude: /(node_modules|bower_components|dist)/,
+        exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
@@ -37,7 +37,7 @@ module.exports = {
   ],
   resolve: {
     root: [
-      path.resolve('./src/js'),
+      path.resolve('./src'),
     ]
   },
   // watch: true

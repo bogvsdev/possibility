@@ -1,5 +1,14 @@
 import React from "react";
 import $ from 'jquery';
+import { connect } from "react-redux";
+import { generate_value } from "../actions/randAction";
+
+
+@connect((store)=>{
+  return {
+    rand: store.rand //getting rand value
+  };
+})
 
 /**
  * Main class of app
@@ -17,22 +26,32 @@ export default class Layout extends React.Component {
   constructor(){
     super()
 
-    this.state = {
-      percent: this.random(),
-    }
-
+    this.newVal = 0;
+    this.oldVal = 0;
   }
 
-  //random between 0 and 100
-  random(){
-    return Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+  componentDidMount(){
+    //generate new value to wipe out initial val
+    this.props.dispatch(generate_value());
+  }
+
+  componentWillUpdate(prevProps, prevState){
+    this.newVal = prevProps.rand;
+    console.log("new val = ",this.newVal);
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    this.oldVal = prevProps.rand;
+    console.log("old val = ",this.oldVal);
   }
 
   generate(e) {
-    e.preventDefault();
+    e.preventDefault();    
+    //generate new value
+    this.props.dispatch(generate_value());
 
     //check if field has something
-    if( $('#qu').val().length == 0 ){
+    if( !$('#qu').val().length ){
       return;
     }else{
       //regenerate percent and save field value
@@ -46,20 +65,25 @@ export default class Layout extends React.Component {
     $('#qu').prop('disabled', true);
 
     var $span = $('#result').find('span'),
-        percent = this.state.percent, //@note holds prev value
+        percent = this.props.rand, //@note holds prev value
         newPercent = 0,
         height = $span.next().height(), //height of the liquid block
         px = (1 * height) / 100, //1% in pixels
-        pxls = height; //initial val of % in pxls
+        pxls = height, //initial val of % in pxls
+        liquid = $span.next(); //liquid block
 
-    // console.log('generate' + percent);
     //reset color
-    $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
+    liquid.css({
+      'background':'rgba(221, 0, 0, 0.82)'
+    });
 
     var interval = setInterval(function(){
-        //add 1% in px from current value of this.state.percent in pxls http://localhost:1000/
+        //add 1% in px from current value of this.props.rand in pxls http://localhost:1000/
         pxls -= px;
-        $span.next().css('bottom', '-'+pxls+'px');
+
+        liquid.css({
+          'bottom':'-'+pxls+'px'
+        });
 
         //stop animation if bottom reached
         if(newPercent == percent){
@@ -73,9 +97,9 @@ export default class Layout extends React.Component {
         $span.text(newPercent+'%');
 
         if(newPercent <= 55 && newPercent >= 20){
-          $span.next().css('background', 'rgba(255, 214, 0, 0.77)');
+          liquid.css('background', 'rgba(255, 214, 0, 0.77)');
         }else if(newPercent >= 56){
-          $span.next().css('background', 'rgba(100, 221, 23, 0.65)');
+          liquid.css('background', 'rgba(100, 221, 23, 0.65)');
         }
         
       }, 50);
@@ -83,7 +107,6 @@ export default class Layout extends React.Component {
 
   clearField(animation = true){
     //generate new percent, but in this method state has previous value
-    this.setState({percent: this.random()});
     var $field = $('#qu');
     //check if field has something
     if( $field.val().length > 0 ){
@@ -91,38 +114,44 @@ export default class Layout extends React.Component {
       $field.val('');
 
       var $span = $('#result').find('span'),
-        percent = this.state.percent,
-        newPercent = percent,
+        percent = ($span.text() === '0%')? 0 : this.oldVal,//if text is entered and status 0% reset percrent
         height = $span.next().height(), //height of the liquid block
         px = (1 * height) / 100, //1% in pixels
-        pxls = height - Math.floor((percent * height) / 100); //% in pixels @note not visible bottom: -131px, visile 0px
+        pxls = height - Math.floor((percent * height) / 100), //% in pixels @note not visible bottom: -131px, visile 0px
+        liquid = $span.next();
       
-      // console.log('clearField percent' + percent);
-
       if (animation) {
         //set liquid to current percent state
-        $span.next().css('bottom', '-'+pxls+'px');
+        liquid.css({
+          'bottom':'-'+pxls+'px'
+        });
+
         // define animation interval. Substructs % and adds pxls
         var interval = setInterval(function(){
-          //add 1% in px from current value of this.state.percent in pxls
+          //add 1% in px from current value of this.props.rand in pxls
           pxls += px;
-          $span.next().css('bottom', '-'+pxls+'px');
 
+          liquid.css({
+            'bottom':'-'+pxls+'px'
+          });
+          
           //stop animation if bottom reached
-          if(newPercent == 0){
-            $span.next().css('background', 'rgba(221, 0, 0, 0.82)');
+          if(percent == 0){
+            liquid.css('background', 'rgba(221, 0, 0, 0.82)'); //red
             clearInterval(interval);
             return;
           }
           //substruct percent value
-          newPercent-=1;
-          $span.text(newPercent+'%');
+          percent-=1;
+          $span.text(percent+'%');
           
         }, 5);
       }
+
+
     }else if($field.val().length === 0 && $('.liquid').prev().text() !== '0%'){ //idle case
-      $span.next().css('bottom', '-131px'); //hide
-      $span.next().css('background', 'rgba(221, 0, 0, 0.82)'); //reset color
+      liquid.css('bottom', '-131px'); //hide
+      liquid.css('background', 'rgba(221, 0, 0, 0.82)'); //reset color
       $span.text('0%');
     } 
 

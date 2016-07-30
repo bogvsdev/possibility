@@ -1,5 +1,5 @@
 body {
-	background:#fff url(http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-136800.jpg) no-repeat;
+	background:#fff url(http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-136797.jpg) no-repeat;
 	-webkit-background-size: cover;
 	background-size: cover;
 	color: #023258;
@@ -52,6 +52,14 @@ h1,h2,h3 {
     text-shadow:0 1px 0 rgba(255,255,255,0.5);
     box-shadow: 0 1px 3px rgba(13, 71, 161, 0.5);
 }
+#container form input[type="text"]:disabled {
+    color: #CECECE;
+    background: #fff;
+}
+#container form input[type="text"]:disabled:hover {
+    cursor: not-allowed;
+}
+
 #container form .row:nth-child(2) {
 	display: block;
 	width: 138px;
